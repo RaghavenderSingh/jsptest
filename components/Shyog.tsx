@@ -76,11 +76,11 @@ type FormValues = z.infer<typeof formSchema>;
 export default function Shyog() {
   const [selectedAmount, setSelectedAmount] = useState<string>("");
   const donationAmount = [
-    "₹101",
-    "₹501",
-    "₹1,001",
-    "₹10,001",
-    "₹1,00,001",
+    "₹1000",
+    "₹3000",
+    "₹5,000",
+    "₹10,000",
+    "₹1,00,000",
     "₹अन्य",
   ];
   const [paymentStatus, setPaymentStatus] = useState<
