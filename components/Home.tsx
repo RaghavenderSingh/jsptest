@@ -26,13 +26,15 @@ export default function Home() {
         </div>
 
         <div className="flex-grow flex flex-col justify-center items-center text-white px-4">
-          <div className="text-center mb-20">
+          <div className="text-center mb-[550px]">
             <h1 className="text-3xl font-semibold mb-2 pr-5">लाने को बदलाव</h1>
             <h2 className="text-3xl font-semibold pl-16">हम सब हैं तैयार</h2>
           </div>
-          <p className="text-3xl  mb-4">जन सुराज</p>
+          <div className="mb-[4rem] w-full text-center flex flex-col gap-2 items-center justify-center ">
+            <p className="text-3xl">जन सुराज</p>
 
-          <UserInfoPopup />
+            <UserInfoPopup />
+          </div>
         </div>
       </div>
     </div>
