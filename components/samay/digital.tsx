@@ -224,7 +224,7 @@ export default function DigiContent({
 
       <iframe
         className="w-full"
-        src="https://www.youtube.com/embed/UlhFr_JEp4o?si=Hsm84bM4uZd6VV3F"
+        src="https://www.youtube.com/embed/EI3SXW3fdCI?si=2cQrG2EWV49R6EcH"
         title="YouTube video player"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         referrerPolicy="strict-origin-when-cross-origin"
