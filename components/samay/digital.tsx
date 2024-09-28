@@ -8,6 +8,9 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import { InputLabel, FormControl } from "@mui/material";
 import { toast } from "sonner";
+import { useSession } from "next-auth/react";
+import Swikar from "./samay";
+import SwikarPaper from "../SwikarPaper";
 
 const CustomTextField = styled(TextField)({
   "& label.Mui-focused": {
@@ -78,6 +81,9 @@ export default function DigiContent({
   });
   const [states, setStates] = useState<string[]>([]);
   const [districts, setDistricts] = useState<string[]>([]);
+  const session = useSession();
+  const [downloadPatra, setDownloadPatra] = useState(false);
+  const [displayPatra, setDisplayPatra] = useState(false);
 
   // Retrieve the stored percentage from localStorage on component mount
   useEffect(() => {
@@ -192,6 +198,7 @@ export default function DigiContent({
       const result = await response.json();
 
       if (result.success) {
+        setDownloadPatra(true);
         toast.success("आपका फॉर्म सफलतापूर्वक जमा कर दिया गया है।");
         setData({
           state: "",
@@ -215,84 +222,98 @@ export default function DigiContent({
   };
 
   return (
-    <div className="flex flex-col w-full space-y-4 justify-center items-center p-4">
-      <p className="text-center">
-        डिजिटल योद्धा मिशन के तहत यूट्यूब चैनल पर वीडियो पोस्ट कर अपने चैनल को
-        मोनेटाइज करने और मासिक प्रोत्साहन राशि प्राप्त करने का अवसर प्रदान करता
-        है।
-      </p>
+    <>
+      {displayPatra ? (
+        <>
+          <SwikarPaper
+            content={`मैं, ${session.data?.user.name}, जन सुराज की विचारधारा को स्वीकार करते हुए यह संकल्प लेता/लेती हूँ कि बिहार के समग्र विकास और इसे देश के अग्रणी राज्यों में शामिल करने के इस ऐतिहासिक अभियान में अपनी सक्रिय भूमिका निभाऊंगा/निभाऊंगी।
+मैं जन सुराज को स्वीकार करके, समय में उनका साथ साझा करता हूँ। जन सुराज से जुड़कर आप भी अपना समय देके भागेदार बनें।`}
+          />
+        </>
+      ) : (
+        <div className="flex flex-col w-full space-y-4 justify-center items-center p-4">
+          <p className="text-center">
+            डिजिटल योद्धा मिशन के तहत यूट्यूब चैनल पर वीडियो पोस्ट कर अपने चैनल
+            को मोनेटाइज करने और मासिक प्रोत्साहन राशि प्राप्त करने का अवसर
+            प्रदान करता है।
+          </p>
 
-      <iframe
-        className="w-full"
-        src="https://www.youtube.com/embed/EI3SXW3fdCI?si=2cQrG2EWV49R6EcH"
-        title="YouTube video player"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        referrerPolicy="strict-origin-when-cross-origin"
-        allowFullScreen
-      ></iframe>
-      <form onSubmit={handleSubmit} className="w-full space-y-4">
-        <FormControl fullWidth>
-          <InputLabel id="state-label">राज्य</InputLabel>
-          <CustomSelect
-            labelId="state-label"
-            name="state"
-            value={formData.state}
-            sx={{ bgcolor: "background.paper" }}
-            label="राज्य"
-            onChange={handleSelectChange}
-            displayEmpty
+          <iframe
+            className="w-full"
+            src="https://www.youtube.com/embed/EI3SXW3fdCI?si=2cQrG2EWV49R6EcH"
+            title="YouTube video player"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allowFullScreen
+          ></iframe>
+          <form onSubmit={handleSubmit} className="w-full space-y-4">
+            <FormControl fullWidth>
+              <InputLabel id="state-label">राज्य</InputLabel>
+              <CustomSelect
+                labelId="state-label"
+                name="state"
+                value={formData.state}
+                sx={{ bgcolor: "background.paper" }}
+                label="राज्य"
+                onChange={handleSelectChange}
+                displayEmpty
+              >
+                {states.map((state) => (
+                  <MenuItem key={state} value={state}>
+                    {state}
+                  </MenuItem>
+                ))}
+              </CustomSelect>
+            </FormControl>
+            <FormControl fullWidth>
+              <InputLabel id="district-label">जिला</InputLabel>
+              <CustomSelect
+                labelId="district-label"
+                name="district"
+                value={formData.district}
+                label="जिला"
+                sx={{ bgcolor: "background.paper" }}
+                onChange={handleSelectChange}
+                displayEmpty
+                disabled={!formData.state}
+              >
+                {districts.map((district) => (
+                  <MenuItem key={district} value={district}>
+                    {district}
+                  </MenuItem>
+                ))}
+              </CustomSelect>
+            </FormControl>
+            <CustomTextField
+              name="block"
+              value={formData.block}
+              onChange={handleTextFieldChange}
+              sx={{ bgcolor: "background.paper" }}
+              className="w-full"
+              label="ब्लॉक"
+              variant="outlined"
+            />
+            <Button
+              className="bg-gradient-to-r from-yellow-400 to-yellow-300 text-black rounded-2xl w-full"
+              type="submit"
+            >
+              जमा करें
+            </Button>
+          </form>
+          <Button
+            className="bg-gradient-to-r from-yellow-400 to-yellow-300 text-black rounded-2xl w-full"
+            disabled={!downloadPatra}
+            onClick={() => {
+              setDisplayPatra(true);
+            }}
           >
-            {states.map((state) => (
-              <MenuItem key={state} value={state}>
-                {state}
-              </MenuItem>
-            ))}
-          </CustomSelect>
-        </FormControl>
-        <FormControl fullWidth>
-          <InputLabel id="district-label">जिला</InputLabel>
-          <CustomSelect
-            labelId="district-label"
-            name="district"
-            value={formData.district}
-            label="जिला"
-            sx={{ bgcolor: "background.paper" }}
-            onChange={handleSelectChange}
-            displayEmpty
-            disabled={!formData.state}
-          >
-            {districts.map((district) => (
-              <MenuItem key={district} value={district}>
-                {district}
-              </MenuItem>
-            ))}
-          </CustomSelect>
-        </FormControl>
-        <CustomTextField
-          name="block"
-          value={formData.block}
-          onChange={handleTextFieldChange}
-          sx={{ bgcolor: "background.paper" }}
-          className="w-full"
-          label="ब्लॉक"
-          variant="outlined"
-        />
-        <Button
-          className="bg-gradient-to-r from-yellow-400 to-yellow-300 text-black rounded-2xl w-full"
-          type="submit"
-        >
-          जमा करें
-        </Button>
-      </form>
-      <Button
-        className="bg-gradient-to-r from-yellow-400 to-yellow-300 text-black rounded-2xl w-full"
-        onClick={() => {
-          /* Add share functionality */
-        }}
-      >
-        <span className="flex-grow text-center">स्वीकार पत्र शेयर करें</span>
-        <Send size={18} />
-      </Button>
-    </div>
+            <span className="flex-grow text-center">
+              स्वीकार पत्र शेयर करें
+            </span>
+            <Send size={18} />
+          </Button>
+        </div>
+      )}
+    </>
   );
 }

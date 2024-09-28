@@ -5,7 +5,7 @@ import { Checkbox } from "./ui/checkbox";
 import html2canvas from "html2canvas";
 import { useRouter } from "next/navigation";
 
-export default function SwikarPaper({ name }: { name: string }) {
+export default function SwikarPaper({ content }: { content: string }) {
   const [isChecked, setIsChecked] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
@@ -86,17 +86,7 @@ export default function SwikarPaper({ name }: { name: string }) {
           }}
         >
           <div className="w-[200px] text-center text-[12px]">
-            <p className="text-center">
-              {` मैं, ${name}, जन सुराज की विचारधारा को स्वीकार करते हुए यह संकल्प
-              लेता/लेती हूँ कि बिहार के समग्र विकास और इसे देश के अग्रणी राज्यों
-              में शामिल करने के इस ऐतिहासिक अभियान में अपनी सक्रिय भूमिका
-              निभाऊंगा/निभाऊंगी। यह सत्ता परिवर्तन नहीं, बल्कि व्यवस्था परिवर्तन
-              का समय है। मैं शिक्षा, स्वास्थ्य, रोजगार और पलायन जैसी चुनौतियों के
-              समाधान के लिए जन सुराज के लक्ष्यों का समर्थन करता/करती हूँ और बिहार
-              के उज्ज्वल भविष्य के निर्माण का संकल्प लेता/लेती हूँ। संस्थापक सदस्य
-              के रूप में, मैं बदलाव की आवाज बनकर इसे हर कोने तक पहुँचाने का प्रयास
-              करूंगा/करूंगी।`}
-            </p>
+            <p className="text-center">{content}</p>
           </div>
         </div>
       </div>

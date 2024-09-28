@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useSession } from "next-auth/react";
+import SwikarPaper from "./SwikarPaper";
 
 type Suggestion = string;
 
@@ -35,6 +37,9 @@ export default function Pkletter({
   const [selectedSuggestions, setSelectedSuggestions] =
     useState<SelectedSuggestions>({});
   const [otherSuggestion, setOtherSuggestion] = useState<string>("");
+  const session = useSession();
+  const [downloadPatra, setDownloadPatra] = useState(false);
+  const [displayPatra, setDisplayPatra] = useState(false);
 
   const handleCheckboxChange = (suggestion: Suggestion) => {
     setSelectedSuggestions((prev) => ({
@@ -63,6 +68,7 @@ export default function Pkletter({
       });
 
       if (response.ok) {
+        setDisplayPatra(true);
         const result = await response.json();
         console.log("Suggestion submitted successfully:", result);
 
@@ -78,50 +84,64 @@ export default function Pkletter({
   };
 
   return (
-    <div className="p-4">
-      <h1 className="text-left text-sm font-bold mb-4">
-        इनमें से किस विषय में आप सुझाव देना चाहेंगे?
-      </h1>
-      <div className="space-y-2">
-        {suggestions.map((suggestion) => (
-          <div key={suggestion} className="flex items-center space-x-2">
-            <Checkbox
-              id={suggestion}
-              checked={selectedSuggestions[suggestion] || false}
-              onCheckedChange={() => handleCheckboxChange(suggestion)}
-            />
-            <label
-              htmlFor={suggestion}
-              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-            >
-              {suggestion}
-            </label>
-          </div>
-        ))}
-        {selectedSuggestions["अन्य"] && (
-          <Input
-            type="text"
-            placeholder="अन्य सुझाव दर्ज करें"
-            value={otherSuggestion}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setOtherSuggestion(e.target.value)
-            }
-            className="mt-2"
+    <>
+      {displayPatra ? (
+        <>
+          <SwikarPaper
+            content={`मैं, ${session.data?.user.name}, जन सुराज की विचारधारा को स्वीकार करते हुए यह संकल्प लेता/लेती हूँ कि बिहार के समग्र विकास और इसे देश के अग्रणी राज्यों में शामिल करने के इस ऐतिहासिक अभियान में अपनी सक्रिय भूमिका निभाऊंगा/निभाऊंगी।
+मैं जन सुराज को स्वीकार करके, सहयोग में उनका साथ साझा करता हूँ। जन सुराज से जुड़कर आप भी अपना सहयोग देके भागेदार बनें।`}
           />
-        )}
-      </div>
-      <Button
-        onClick={handleSubmit}
-        className=" w-full mt-4 bg-gradient-to-r from-yellow-400 to-yellow-300 text-black rounded-2xl"
-      >
-        जमा करें
-      </Button>
-      <Button
-        onClick={handleSubmit}
-        className=" w-full mt-4 bg-gradient-to-r from-yellow-400 to-yellow-300 text-black rounded-2xl"
-      >
-        रेफरल शेयर करें
-      </Button>
-    </div>
+        </>
+      ) : (
+        <div className="p-4">
+          <h1 className="text-left text-sm font-bold mb-4">
+            इनमें से किस विषय में आप सुझाव देना चाहेंगे?
+          </h1>
+          <div className="space-y-2">
+            {suggestions.map((suggestion) => (
+              <div key={suggestion} className="flex items-center space-x-2">
+                <Checkbox
+                  id={suggestion}
+                  checked={selectedSuggestions[suggestion] || false}
+                  onCheckedChange={() => handleCheckboxChange(suggestion)}
+                />
+                <label
+                  htmlFor={suggestion}
+                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  {suggestion}
+                </label>
+              </div>
+            ))}
+            {selectedSuggestions["अन्य"] && (
+              <Input
+                type="text"
+                placeholder="अन्य सुझाव दर्ज करें"
+                value={otherSuggestion}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setOtherSuggestion(e.target.value)
+                }
+                className="mt-2"
+              />
+            )}
+          </div>
+          <Button
+            onClick={handleSubmit}
+            className=" w-full mt-4 bg-gradient-to-r from-yellow-400 to-yellow-300 text-black rounded-2xl"
+          >
+            जमा करें
+          </Button>
+          <Button
+            disabled={!downloadPatra}
+            onClick={() => {
+              setDisplayPatra(true);
+            }}
+            className=" w-full mt-4 bg-gradient-to-r from-yellow-400 to-yellow-300 text-black rounded-2xl"
+          >
+            रेफरल शेयर करें
+          </Button>
+        </div>
+      )}
+    </>
   );
 }
