@@ -18,6 +18,7 @@ import TextField from "@mui/material/TextField";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import { countryCodes } from "@/lib/country";
+import { Checkbox } from "./ui/checkbox";
 
 const CustomTextField = styled(TextField)({
   "& label.Mui-focused": {
@@ -75,20 +76,14 @@ type FormValues = z.infer<typeof formSchema>;
 
 export default function Shyog() {
   const [selectedAmount, setSelectedAmount] = useState<string>("");
-  const donationAmount = [
-    "₹1000",
-    "₹3000",
-    "₹5,000",
-    "₹10,000",
-    "₹1,00,000",
-    "₹अन्य",
-  ];
+  const donationAmount = ["₹1,000", "₹2,000", "₹5,000", "₹10,000"];
   const [paymentStatus, setPaymentStatus] = useState<
     "PENDING" | "PROCESSING" | "COMPLETED" | "FAILED"
   >("PENDING");
   const [countryCode, setCountryCode] = useState("+91");
   const amountInputRef = useRef<HTMLInputElement>(null);
   const [isAmountHighlighted, setIsAmountHighlighted] = useState(false);
+  const [isMonthlyDonation, setIsMonthlyDonation] = useState(false);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -99,6 +94,31 @@ export default function Shyog() {
       amount: "",
     },
   });
+  const handleDonationClick = () => {
+    let url = "";
+
+    if (isMonthlyDonation) {
+      const amount = parseInt(selectedAmount.replace(/[₹,]/g, ""));
+      switch (amount) {
+        case 1000:
+          url = "https://rzp.io/rzp/SxNl8FX";
+          break;
+        case 2000:
+          url = "https://rzp.io/i/IbtGUIyB8";
+          break;
+        case 5000:
+          url = "https://rzp.io/i/Z1UWESBTLq";
+          break;
+        case 10000:
+          url = "https://rzp.io/i/e1pBa5A5ps";
+          break;
+        default:
+          url = ""; // Default URL for other amounts
+      }
+    }
+
+    window.open(url, "_blank");
+  };
 
   const onSubmit: SubmitHandler<FormValues> = async (values) => {
     console.log(values);
@@ -132,6 +152,14 @@ export default function Shyog() {
       amountInputRef.current.focus();
     }
   }, [isAmountHighlighted]);
+  const getMonthlyAmount = () => {
+    const amount = selectedAmount.replace(/[₹,]/g, "");
+    const numAmount = parseFloat(amount);
+    if (!isNaN(numAmount) && numAmount > 0) {
+      return (numAmount / 10).toFixed(2);
+    }
+    return "0.00";
+  };
 
   return (
     <div>
@@ -232,6 +260,7 @@ export default function Shyog() {
                         label="राशि"
                         className="w-full bg-white rounded-2xl"
                         placeholder="100.00"
+                        disabled
                         {...field}
                         onChange={(e) => {
                           field.onChange(e);
@@ -246,6 +275,7 @@ export default function Shyog() {
                             <InputAdornment position="start">₹</InputAdornment>
                           ),
                         }}
+                        disabled
                         label="राशि"
                         className="w-full bg-white rounded-2xl"
                         placeholder="100.00"
@@ -258,6 +288,18 @@ export default function Shyog() {
                       />
                     )}
                   </FormControl>
+                  <div>
+                    <Checkbox
+                      className="h-3 w-3"
+                      checked={isMonthlyDonation}
+                      onCheckedChange={(checked) =>
+                        setIsMonthlyDonation(checked as boolean)
+                      }
+                    />
+                    <span className="text-sm text-black">
+                      {` ₹${getMonthlyAmount()} प्रति माह (10 महीने)`}
+                    </span>
+                  </div>
                   <div className="flex flex-wrap gap-2">
                     {donationAmount.map((item, index) => (
                       <Badge
@@ -283,7 +325,8 @@ export default function Shyog() {
           />
           <Button
             className="w-full mt-4 bg-gradient-to-r from-yellow-400 to-yellow-300 text-black rounded-2xl"
-            type="submit"
+            type="button"
+            onClick={handleDonationClick}
             disabled={paymentStatus === "PROCESSING"}
           >
             {paymentStatus === "PROCESSING" ? "प्रसंस्करण..." : "सहयोग करें"}
