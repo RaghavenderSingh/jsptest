@@ -115,6 +115,24 @@ export default function Shyog() {
         default:
           url = ""; // Default URL for other amounts
       }
+    } else {
+      const amount = parseInt(selectedAmount.replace(/[₹,]/g, ""));
+      switch (amount) {
+        case 1000:
+          url = "https://rzp.io/i/A64qoxY";
+          break;
+        case 2000:
+          url = "https://rzp.io/i/V0Jpo5sTA";
+          break;
+        case 5000:
+          url = "https://rzp.io/i/Jdynq1Va";
+          break;
+        case 10000:
+          url = "https://rzp.io/i/HZYNuVw7o";
+          break;
+        default:
+          url = ""; // Default URL for other amounts
+      }
     }
 
     window.open(url, "_blank");
