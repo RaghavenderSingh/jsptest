@@ -27,34 +27,6 @@ export default function SwikarPaper({ content }: { content: string }) {
     return data;
   };
 
-  const uploadAndShareImage = async (blob: Blob) => {
-    try {
-      setStatus("Generating pre-signed URL...");
-      const { url: presignedUrl, filename } = await getPresignedUrl();
-
-      setStatus("Uploading image...");
-      const response = await fetch(presignedUrl, {
-        method: "PUT",
-        body: blob,
-        headers: {
-          "Content-Type": "image/png",
-        },
-      });
-
-      if (response.ok) {
-        const publicUrl = `${process.env.NEXT_PUBLIC_R2_PUBLIC_URL}/${filename}`;
-        setImageUrl(publicUrl); // Save image URL for sharing
-        setStatus("Image uploaded successfully. Preparing to share...");
-        shareToFacebook(publicUrl); // Share uploaded image
-      } else {
-        setStatus("Failed to upload image");
-      }
-    } catch (error) {
-      setStatus("Error: " + (error as Error).message);
-      console.error("Upload error:", error);
-    }
-  };
-
   const handleCheckboxChange = async (checked: boolean) => {
     setIsChecked(checked);
     if (checked && contentRef.current) {
@@ -89,18 +61,14 @@ export default function SwikarPaper({ content }: { content: string }) {
       return;
     }
 
-    const fullImageUrl = imageUrl.startsWith("http")
-      ? imageUrl
-      : `${window.location.origin}${
-          imageUrl.startsWith("/") ? "" : "/"
-        }${imageUrl}`;
+    console.log("Sharing image URL:", imageUrl); // Add this to check if imageUrl is valid
 
-    const shareText = "Check out my Swikar Paper!"; // Customize this message
+    const shareText = "Check out my Swikar Paper!";
 
     const shareUrl = `https://www.facebook.com/dialog/share?app_id=${
       process.env.NEXT_PUBLIC_FACEBOOK_APP_ID
     }&display=popup&href=${encodeURIComponent(
-      fullImageUrl
+      imageUrl
     )}&quote=${encodeURIComponent(shareText)}&redirect_uri=${encodeURIComponent(
       window.location.href
     )}`;
@@ -110,11 +78,42 @@ export default function SwikarPaper({ content }: { content: string }) {
     const shareWindow = window.open(shareUrl, "_blank", windowFeatures);
 
     if (shareWindow) {
-      setStatus("Facebook sharing window opened. You can close this page now.");
+      setStatus("Facebook sharing window opened.");
     } else {
       setStatus(
         "Failed to open sharing window. Please check your pop-up blocker settings."
       );
+    }
+  };
+  const uploadAndShareImage = async (blob: Blob) => {
+    try {
+      setStatus("Generating pre-signed URL...");
+      const { url: presignedUrl, filename } = await getPresignedUrl();
+
+      setStatus("Uploading image...");
+      const response = await fetch(presignedUrl, {
+        method: "PUT",
+        body: blob,
+        headers: {
+          "Content-Type": "image/png",
+        },
+      });
+
+      if (response.ok) {
+        // Construct the public URL of the uploaded image
+        const publicUrl = `${process.env.NEXT_PUBLIC_R2_PUBLIC_URL}/${filename}`;
+        setImageUrl(publicUrl); // Make sure this is set before sharing
+        setStatus("Image uploaded successfully. Preparing to share...");
+
+        // Now, pass the correct publicUrl to the sharing function
+        shareToFacebook(publicUrl); // Pass the correct URL
+        router.push("/home");
+      } else {
+        setStatus("Failed to upload image");
+      }
+    } catch (error) {
+      setStatus("Error: " + (error as Error).message);
+      console.error("Upload error:", error);
     }
   };
 
@@ -181,13 +180,7 @@ export default function SwikarPaper({ content }: { content: string }) {
             }
           </span>
         </div>
-        <p className="text-sm text-gray-600 mt-2">
-          {isChecked
-            ? "Checking this box will generate and share your Swikar Paper on Facebook."
-            : "Check this box to generate and share your Swikar Paper on Facebook."}
-        </p>
       </div>
-      <p className="text-center mt-4 font-semibold">{status}</p>
     </div>
   );
 }
