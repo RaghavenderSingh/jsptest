@@ -4,6 +4,8 @@ import { FaFacebookF, FaWhatsapp } from "react-icons/fa";
 import { IoIosMusicalNotes } from "react-icons/io";
 import { PiPhoneCall } from "react-icons/pi";
 import CustomAvatar from "../CustomAvatar";
+import SwikarPaper from "../SwikarPaper";
+import { useSession } from "next-auth/react";
 
 export default function Sankalp({
   setSankapPercent,
@@ -15,6 +17,8 @@ export default function Sankalp({
   const [image, setImage] = useState<string | null>(null);
   const [hasUploaded, setHasUploaded] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [facebookShared, setFacebookShared] = useState(false);
+  const session = useSession();
 
   // Load image from local storage on component mount
   useEffect(() => {
@@ -50,7 +54,7 @@ export default function Sankalp({
   const handleButtonClick = () => {
     fileInputRef.current?.click();
   };
-
+  console.log("facebookShared", facebookShared);
   return (
     <div>
       <div>
@@ -77,12 +81,27 @@ export default function Sankalp({
           <FaWhatsapp className="absolute right-2 sm:right-4 text-sm sm:text-lg text-black" />
         </button>
         {image && <CustomAvatar selectedImage={image} name="Jan Suraaj" />}
-        <button className="w-full sm:w-auto h-[40px] sm:h-[50px] rounded-3xl flex items-center justify-center px-3 sm:px-4 relative overflow-hidden transition-all duration-300 ease-in-out text-xs sm:text-sm md:text-base bg-white hover:bg-gradient-to-r hover:from-[#ffb800] hover:via-[#efd80b] hover:to-[#efd80b] group">
+        <button
+          onClick={() => {
+            setFacebookShared(!facebookShared);
+          }}
+          className="w-full sm:w-auto h-[40px] sm:h-[50px] rounded-3xl flex items-center justify-center px-3 sm:px-4 relative overflow-hidden transition-all duration-300 ease-in-out text-xs sm:text-sm md:text-base bg-white hover:bg-gradient-to-r hover:from-[#ffb800] hover:via-[#efd80b] hover:to-[#efd80b] group"
+        >
           <span className="mr-6 sm:mr-8 text-black transition-colors duration-300">
             फेसबुक स्टोरी लगाएं
           </span>
           <FaFacebookF className="absolute right-2 sm:right-4 text-sm sm:text-lg text-black" />
         </button>
+        {facebookShared === true ? (
+          <div className="w-full bg-white">
+            <SwikarPaper
+              content={`मैं, ${session.data?.user.name}, जन सुराज की विचारधारा को स्वीकार करते हुए यह संकल्प लेता/लेती हूँ कि बिहार के समग्र विकास और इसे देश के अग्रणी राज्यों में शामिल करने के इस ऐतिहासिक अभियान में अपनी सक्रिय भूमिका निभाऊंगा/निभाऊंगी।
+मैं जन सुराज को स्वीकार करके, संकल्प में उनका साथ साझा करता हूँ। जन सुराज से जुड़कर आप भी अपना संकल्प देके भागेदार बनें।`}
+            />
+          </div>
+        ) : (
+          <></>
+        )}
         <button className="w-full sm:w-auto h-[40px] sm:h-[50px] rounded-3xl flex items-center justify-center px-3 sm:px-4 relative overflow-hidden transition-all duration-300 ease-in-out text-xs sm:text-sm md:text-base bg-white hover:bg-gradient-to-r hover:from-[#ffb800] hover:via-[#efd80b] hover:to-[#efd80b] group">
           <span className="mr-6 sm:mr-8 text-black transition-colors duration-300">
             जन सुराज की रिंगटोन लगाएं
