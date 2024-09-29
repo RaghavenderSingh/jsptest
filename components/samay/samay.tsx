@@ -32,7 +32,7 @@ export default function Swikar({
   return (
     <div className="flex flex-col justify-center items-center w-full">
       <h3 className="font-bold w-full text-center mb-4">
-        बिहार के बदलाव की आवाज़ बनें—अभी!
+        जन सुराज को दिया समय सार्वजनिक करें — बिहार के बदलाव की आवाज़ बनें।
       </h3>
 
       <Accordion type="single" collapsible className="w-full space-y-4">

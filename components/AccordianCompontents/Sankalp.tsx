@@ -54,9 +54,9 @@ export default function Sankalp({
   return (
     <div>
       <div>
-        <p className="text-center text-xl ">
-          जन सुराज का संकल्प सार्वजनिक करें—डिजिटल रूप से अपनी आवाज़ बुलंद करें
-          और बदलाव की दिशा में निर्णायक कदम उठाएं।
+        <p className="text-center font-bold text-sm ">
+          जन सुराज को दिया संकल्प सार्वजनिक करें — डिजिटल रूप से अपनी आवाज़
+          बुलंद करें।
         </p>
       </div>
       <div className="flex flex-col gap-3 mt-5">

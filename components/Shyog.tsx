@@ -163,8 +163,9 @@ export default function Shyog() {
 
   return (
     <div>
-      <h1 className="text-left text-sm font-bold mb-4">
-        आर्थिक सहयोग करके बिहार के बदलाव में अपना योगदान दें
+      <h1 className="flex justify-center items-center font-bold w-full text-center mb-4">
+        जन सुराज को दिया सहयोग सार्वजनिक करें — आर्थिक सहयोग करके अपना योगदान
+        दें।
       </h1>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">

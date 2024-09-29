@@ -19,6 +19,9 @@ export default function Sujav({
 }) {
   return (
     <div className="w-full">
+      <h3 className="flex justify-center items-center font-bold w-full text-center mb-4">
+        जन सुराज को दिया सूझाव सार्वजनिक करें — बहुमूल्य सूझाव दे विकास के लिए।
+      </h3>
       <Accordion type="single" collapsible className="w-full space-y-4">
         <AccordionItem value="item-1" className="border-none">
           <AccordionTrigger className="flex flex-row items-center w-full justify-between border border-gray-800 p-3 rounded-full transition-colors duration-300 hover:bg-gradient-to-r hover:from-yellow-400 hover:to-yellow-300 data-[state=open]:bg-gradient-to-r data-[state=open]:from-yellow-400 data-[state=open]:to-yellow-300 hover:no-underline">
