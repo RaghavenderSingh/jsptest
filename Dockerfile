@@ -28,7 +28,6 @@ RUN npm run build
 # Expose the port the app runs on
 EXPOSE 3000
 
-ENV NEXTAUTH_SECRET=WmqfIErQRRKv4EbrmsuAMrGHPjpxC+wLZDxk425JgeY=
 
 # Start the application, and run migrations at runtime
 CMD ["sh", "-c", "npx prisma migrate deploy && npm start"]

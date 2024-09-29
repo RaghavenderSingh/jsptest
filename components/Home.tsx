@@ -22,11 +22,11 @@ export default function Home() {
             height={50}
             className="rounded-full"
           />
-          <AlignJustify size={30} className="text-white" />
+          <></>
         </div>
 
-        <div className="flex-grow flex flex-col justify-center items-center text-white px-4">
-          <div className="text-center mb-[550px]">
+        <div className="flex-grow flex  flex-col align-bottom justify-end text-white px-4">
+          <div className="text-center mb-[50px]">
             <h1 className="text-3xl font-semibold mb-2 pr-5">लाने को बदलाव</h1>
             <h2 className="text-3xl font-semibold pl-16">हम सब हैं तैयार</h2>
           </div>

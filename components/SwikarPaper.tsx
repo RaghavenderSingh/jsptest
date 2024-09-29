@@ -61,7 +61,31 @@ export default function SwikarPaper({ content }: { content: string }) {
       return;
     }
 
-    console.log("Sharing image URL:", imageUrl); // Add this to check if imageUrl is valid
+    console.log("Sharing image URL:", imageUrl);
+
+    // Download the image
+    const downloadImage = () => {
+      fetch(imageUrl)
+        .then((response) => response.blob())
+        .then((blob) => {
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.style.display = "none";
+          a.href = url;
+          a.download = "swikar_paper.jpg"; // You can set a default filename here
+          document.body.appendChild(a);
+          a.click();
+          window.URL.revokeObjectURL(url);
+          setStatus("Image downloaded successfully.");
+        })
+        .catch((error) => {
+          console.error("Error downloading image:", error);
+          setStatus("Failed to download image.");
+        });
+    };
+
+    // Download the image
+    downloadImage();
 
     const shareText = "Check out my Swikar Paper!";
 
@@ -78,10 +102,10 @@ export default function SwikarPaper({ content }: { content: string }) {
     const shareWindow = window.open(shareUrl, "_blank", windowFeatures);
 
     if (shareWindow) {
-      setStatus("Facebook sharing window opened.");
+      setStatus("Facebook sharing window opened and image download started.");
     } else {
       setStatus(
-        "Failed to open sharing window. Please check your pop-up blocker settings."
+        "Failed to open sharing window. Please check your pop-up blocker settings. Image download started."
       );
     }
   };
