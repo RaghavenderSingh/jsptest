@@ -113,17 +113,16 @@ export default function Pkletter({
                 </label>
               </div>
             ))}
-            {selectedSuggestions["अन्य"] && (
-              <Input
-                type="text"
-                placeholder="अन्य सुझाव दर्ज करें"
-                value={otherSuggestion}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setOtherSuggestion(e.target.value)
-                }
-                className="mt-2"
-              />
-            )}
+
+            <Input
+              type="text"
+              placeholder="अन्य सुझाव दर्ज करें"
+              value={otherSuggestion}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setOtherSuggestion(e.target.value)
+              }
+              className="mt-2"
+            />
           </div>
           <Button
             onClick={handleSubmit}
