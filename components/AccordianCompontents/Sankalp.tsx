@@ -88,7 +88,7 @@ export default function Sankalp({
           className="w-full sm:w-auto h-[40px] sm:h-[50px] rounded-3xl flex items-center justify-center px-3 sm:px-4 relative overflow-hidden transition-all duration-300 ease-in-out text-xs sm:text-sm md:text-base bg-white hover:bg-gradient-to-r hover:from-[#ffb800] hover:via-[#efd80b] hover:to-[#efd80b] group"
         >
           <span className="mr-6 sm:mr-8 text-black transition-colors duration-300">
-            फेसबुक स्टोरी लगाएं
+            फेसबुक पर बताएं
           </span>
           <FaFacebookF className="absolute right-2 sm:right-4 text-sm sm:text-lg text-black" />
         </button>

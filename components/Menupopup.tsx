@@ -12,10 +12,9 @@ import {
 
 const CustomPopup = () => {
   const menuItems = [
-    { text: "प्रोफ़ाइल", icon: User },
     { text: "डैशबोर्ड", icon: LayoutDashboard },
     { text: "संपर्क", icon: Phone },
-    { text: "होमसवाल", icon: Home },
+    { text: "सवाल", icon: Home },
   ];
 
   return (
