@@ -22,17 +22,19 @@ export default function Home() {
             height={50}
             className="rounded-full"
           />
-          <></>
         </div>
 
-        <div className="flex-grow flex  flex-col align-bottom justify-end text-white px-4">
+        <div className="flex-grow flex flex-col justify-end text-white px-4">
           <div className="text-center mb-[50px]">
-            <h1 className="text-3xl font-semibold mb-2 pr-5">लाने को बदलाव</h1>
-            <h2 className="text-3xl font-semibold pl-16">हम सब हैं तैयार</h2>
+            <h1 className="text-3xl md:text-4xl pr-5 font-semibold mb-2">
+              लाने को बदलाव
+            </h1>
+            <h2 className="text-2xl md:text-3xl pl-16 font-semibold">
+              हम सब हैं तैयार
+            </h2>
           </div>
-          <div className="mb-[4rem] w-full text-center flex flex-col gap-2 items-center justify-center ">
-            <p className="text-3xl">जन सुराज</p>
-
+          <div className="mb-[4rem] w-full text-center flex flex-col gap-2 items-center justify-center">
+            <p className="text-2xl md:text-3xl">जन सुराज</p>
             <UserInfoPopup />
           </div>
         </div>
