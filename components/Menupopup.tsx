@@ -1,20 +1,16 @@
-"use client";
 import React from "react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import {
-  User,
-  LayoutDashboard,
-  Phone,
-  Home,
-  AlignJustify,
-  X,
-} from "lucide-react";
+import { LayoutDashboard, Phone, Home, AlignJustify, X } from "lucide-react";
 
 const CustomPopup = () => {
   const menuItems = [
-    { text: "डैशबोर्ड", icon: LayoutDashboard },
-    { text: "संपर्क", icon: Phone },
-    { text: "सवाल", icon: Home },
+    {
+      text: "डैशबोर्ड",
+      icon: LayoutDashboard,
+      link: "",
+    },
+    { text: "होम", icon: Phone, link: " https://www.jansuraaj.org/" },
+    { text: "जुड़ें", icon: Home, link: "https://www.jansuraaj.org/join-us" },
   ];
 
   return (
@@ -28,20 +24,23 @@ const CustomPopup = () => {
             className="text-[#ffb800] hover:text-[#ffd700] transition-colors duration-200"
             asChild
           >
-            <button className="">
+            <button>
               <X size={30} />
             </button>
           </DialogTrigger>
         </div>
         <div className="flex flex-col items-center justify-center space-y-8">
           {menuItems.map((item, index) => (
-            <button
+            <a
               key={index}
+              href={item.link}
+              target="_blank"
+              rel="noopener noreferrer" // Security best practice
               className="flex gap-2 items-center text-[#ffb800] hover:text-[#ffd700] transition-colors duration-200"
             >
               <item.icon size={20} />
               <span className="text-xl">{item.text}</span>
-            </button>
+            </a>
           ))}
         </div>
       </DialogContent>
