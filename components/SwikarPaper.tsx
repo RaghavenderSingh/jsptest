@@ -125,7 +125,7 @@ export default function SwikarPaper({ content }: { content: string }) {
 
       if (response.ok) {
         // Construct the public URL of the uploaded image
-        const publicUrl = `${process.env.NEXT_PUBLIC_R2_PUBLIC_URL}/${filename}`;
+        const publicUrl = `${process.env.NEXT_PUBLIC_S3_PUBLIC_URL}/${filename}`;
         setImageUrl(publicUrl); // Make sure this is set before sharing
         setStatus("Image uploaded successfully. Preparing to share...");
 
@@ -156,7 +156,7 @@ export default function SwikarPaper({ content }: { content: string }) {
           property="og:image"
           content={
             imageUrl ||
-            `${process.env.NEXT_PUBLIC_R2_PUBLIC_URL}/default-share-image.png`
+            `${process.env.NEXT_PUBLIC_S3_PUBLIC_URL}/default-share-image.png`
           } // Fallback to default image if no imageUrl is available
         />
       </Head>
